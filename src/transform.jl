@@ -1,6 +1,8 @@
 # Transforming a graph By adding and removing nodes and edges.
 
-export transform!, applyRule!, transformingGraph
+using UUIDs
+
+export transform!, applyRule!, transformingGraph!
 
 function transform!(graph::DiGraph, addarcs, removearcs)
     setdiff!(graph.edges, removearcs)
@@ -8,10 +10,10 @@ function transform!(graph::DiGraph, addarcs, removearcs)
     graph
 end
 
-function applyRule!(graph::DiGraph)
+function applyRule!(graph::DiGraph, rule)
     nodes(graph) .|>
 	(node -> rule(graph, node)) .|>
-	(add_remove -> transform!(rpg, add_remove...))
+	(add_remove -> transform!(graph, add_remove...))
     nothing
 end
 

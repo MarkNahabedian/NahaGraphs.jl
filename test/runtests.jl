@@ -41,3 +41,24 @@ end
     @test length(edges(g)) == 12
 end
 
+@testset "transformingGraph! and applyRule!" begin
+    g = DiGraph()
+    nodes = [:a, :b, :c]
+    for from in nodes, to in nodes
+        add_edge!(g, from, to)
+    end
+    @test length(edges(g)) == 9
+    function rule(g, node)
+        transformingGraph!() do check, add, remove
+            for edge in query(g, node, node)
+                add(edge.first => :x)
+                add(:x => edge.second)
+                remove(edge)
+            end
+        end
+    end
+    applyRule!(g, rule)
+    #test nodes(g) == Set([:a, :b, :c, :x])
+    @test length(edges(g)) == 12
+end
+
