@@ -24,6 +24,8 @@ end
     add_edge!(g, :b => 2)
     add_edge!(g, :c => 3)
     add_edge!(g, :c => 31)
+    @test haskey(g, :b)
+    @test !haskey(g, :x)
     @test g[:b] == Set(2)
     @test g[:c] == Set([3, 31])
 end

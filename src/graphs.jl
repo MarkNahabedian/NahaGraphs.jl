@@ -47,6 +47,10 @@ end
 Base.keys(graph::DiGraph) = Set([p.first for p in graph.edges])
 Base.values(graph::DiGraph) = Set([p.second for p in graph.edges])
 
+function Base.haskey(graph::DiGraph, key)::Bool
+    !isempty(filter(edge -> edge.first == key, graph.edges))
+end
+
 function Base.getindex(graph::DiGraph, key)::Set
     Set((p -> p.second).(filter(p -> p.first == key, graph.edges)))
 end
