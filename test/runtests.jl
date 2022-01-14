@@ -26,17 +26,18 @@ end
     end
     @test length(edges(g)) == 9
     # Replace self-edges with an arc through node :x:
+    # Don't modify edges until iteration is complete:
+    add = Set()
+    remove = Set()
     for edge in edges(g)
         if edge.first == edge.second
-            @info "self edge:", edge
-            transform!(g,
-                       [(edge.first => :x),
-                        (:x => edge.second)],
-                       [edge])
+            push!(add, edge.first => :x)
+            push!(add, :x => edge.second)
+            push!(remove, edge)
         end
     end
+    transform!(g, add, remove)
     #test nodes(g) == Set([:a, :b, :c, :x])
-    @info g.edges
     @test length(edges(g)) == 12
 end
 
