@@ -1,5 +1,6 @@
 using NahaGraphs
 using Test
+using Logging
 
 @testset "DiGraph" begin
     g = DiGraph()
@@ -16,3 +17,26 @@ using Test
     remove_edge!(g, :a2 => :b)
     @test query(g, Any, :b) == Set([:a1 => :b])
 end
+
+@testset "transform" begin
+    g = DiGraph()
+    nodes = [:a, :b, :c]
+    for from in nodes, to in nodes
+        add_edge!(g, from, to)
+    end
+    @test length(edges(g)) == 9
+    # Replace self-edges with an arc through node :x:
+    for edge in edges(g)
+        if edge.first == edge.second
+            @info "self edge:", edge
+            transform!(g,
+                       [(edge.first => :x),
+                        (:x => edge.second)],
+                       [edge])
+        end
+    end
+    #test nodes(g) == Set([:a, :b, :c, :x])
+    @info g.edges
+    @test length(edges(g)) == 12
+end
+

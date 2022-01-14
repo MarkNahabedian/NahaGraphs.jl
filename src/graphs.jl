@@ -1,5 +1,5 @@
 
-export DiGraph, nodes, add_edge!, remove_edge!, nodes, query
+export DiGraph, add_edge!, remove_edge!, nodes, edges, query
 
 struct DiGraph
     edges::Set{Pair{}}
@@ -28,6 +28,8 @@ end
 
 
 nodes(graph::DiGraph) = union(keys(graph), values(graph))
+
+edges(graph::DiGraph) = graph.edges
 
 function query(graph::DiGraph, from, to)::Set
     function querytest(elt, val)

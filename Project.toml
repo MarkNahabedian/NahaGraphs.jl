@@ -3,6 +3,9 @@ uuid = "fd225a7d-cc45-47cf-8742-8ffafb057088"
 authors = ["MarkNahabedian <naha@mit.edu> and contributors"]
 version = "0.1.0"
 
+[deps]
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
+
 [compat]
 julia = "1"
 
