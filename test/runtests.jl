@@ -18,6 +18,16 @@ using Logging
     @test query(g, Any, :b) == Set([:a1 => :b])
 end
 
+@testset "DiGraph as Dict" begin
+    g = DiGraph()
+    add_edge!(g, :a => 1)
+    add_edge!(g, :b => 2)
+    add_edge!(g, :c => 3)
+    add_edge!(g, :c => 31)
+    @test g[:b] == Set(2)
+    @test g[:c] == Set([3, 31])
+end
+
 @testset "transform" begin
     g = DiGraph()
     nodes = [:a, :b, :c]
