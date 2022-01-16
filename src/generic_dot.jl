@@ -50,14 +50,14 @@ graph_attributes(graph) = Dict{Symbol, AbstractString}()
 
 """
     node_attributes(graph)
-Return a Dict of node attributes that should apply to all nodes of `graph`.
+Return a Dict of the default node attributes that should apply to all nodes of `graph`.
 """
 node_attributes(graph) = Dict{Symbol, AbstractString}()
 
 
 """
     edge_attributes(graph)
-Return a Dict of attributes that should apply to all edges of `graph`.
+Return a Dict of the default attributes that should apply to all edges of `graph`.
 """
 edge_attributes(graph) = Dict{Symbol, AbstractString}()
 
