@@ -71,6 +71,29 @@ end
     end
     applyRule!(g, rule)
     #test nodes(g) == Set([:a, :b, :c, :x])
+
     @test length(edges(g)) == 12
+end
+
+@testset "generic dot" begin
+    # Just test that we can write a Dot file without error.  If Dot is
+    # available, run it on that file as a validation step.
+    g = DiGraph()
+    nodes = [:a, :b, :c]
+    for from in nodes, to in nodes
+        if from == to
+            add_edge!(g, from, :x)
+            add_edge!(g, :x, to)
+        else
+            add_edge!(g, from, to)
+        end
+    end
+    dotfile = joinpath(@__DIR__, "generic_dot_test.dot")
+    dotgraph(dotfile, g)
+    try
+        rundot(dotfile)
+    catch e
+        @error "Running dot failed:", e
+    end
 end
 
