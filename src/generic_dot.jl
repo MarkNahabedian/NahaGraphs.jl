@@ -172,7 +172,7 @@ end
 Write a Dot node statement to `io` describing `node`.
 """
 function dotnode(io::IO, graph, node)
-    write(io, """  "$(dotescape(dotID(node)))"\n""")
+    write(io, """  $(dotescape(dotID(node)))\n""")
 end
 
 
@@ -210,6 +210,9 @@ diark is a convenience function for `dotedge` methods to call.
 """
 function diarc(io::IO, from, to; kwargs...)
     attrs = dot_attributes_string(; kwargs...)
-    write(io, "  $(dotescape(dotID(from))) -> $(dotescape(dotID(to))) [$attrs]\n")
+    if !isempty(attrs)
+        attrs = " [" * attrs * "}"
+    end
+    write(io, "  $(dotescape(dotID(from))) -> $(dotescape(dotID(to)))$attrs\n")
 end
 
