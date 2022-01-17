@@ -5,8 +5,8 @@ using UUIDs
 export transform!, applyRule!, transformingGraph!
 
 function transform!(graph, addarcs, removearcs)
-    setdiff!(graph.edges, removearcs)
-    union!(graph.edges, addarcs)
+    (e -> remove_edge!(graph, e)).(removearcs)
+    (e -> add_edge!(graph, e)).(addarcs)
     graph
 end
 

@@ -17,26 +17,29 @@ end
 
 
 """
-    add_edge!(::DiGraph, from, to)
+    add_edge!(graph, from, to)
     add_edge!(::DiGraph, ::Pair)
 Add an edge to the DiGraph going between the specified nodes.
+The graph is returned.
 """
 function add_edge! end
 
-function add_edge!(graph::DiGraph, from, to)::DiGraph
-    push!(graph.edges, Pair(from, to))
+function add_edge!(graph, from, to)
+    add_edge!(graph, from => to)
     graph
 end
 
-function add_edge!(graph::DiGraph, edge::Pair)::DiGraph
-    add_edge!(graph, edge.first, edge.second)
+function add_edge!(graph::DiGraph, edge::Pair)
+    push!(graph.edges, edge)
+    graph
 end
 
 
 """
-    remove_edge!(::DiGraph, from, to)
+    remove_edge!(graph, from, to)
     remove_edge!(::DiGraph, ::Pair)
 Remove the edge of the DiGraph going between the specified nodes.
+The graph is returned.
 """
 function remove_edge! end
 
@@ -45,7 +48,7 @@ function remove_edge!(graph::DiGraph, edge::Pair)::DiGraph
     graph
 end
 
-function remove_edge!(graph::DiGraph, from, to)::DiGraph
+function remove_edge!(graph, from, to)
     remove_edge!(graph, from => to)
     graph
 end

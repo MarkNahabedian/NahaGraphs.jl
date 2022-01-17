@@ -53,8 +53,8 @@ end
     @test length(edges(g)) == 12
 end
 
-@testset "transformingGraph! and applyRule!" begin
-    g = DiGraph()
+function transform_test(graph_type)
+    g = graph_type()
     nodes = [:a, :b, :c]
     for from in nodes, to in nodes
         add_edge!(g, from, to)
@@ -71,8 +71,18 @@ end
     end
     applyRule!(g, rule)
     #test nodes(g) == Set([:a, :b, :c, :x])
-
     @test length(edges(g)) == 12
+end
+
+@testset "transformingGraph! and applyRule!" begin
+    transform_test(DiGraph)
+end
+
+
+include("mygraph.jl")
+
+@testset "transform wrapped DiGraph" begin
+    transform_test(MyGraph)
 end
 
 @testset "generic dot" begin
