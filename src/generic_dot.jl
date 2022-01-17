@@ -10,9 +10,6 @@ following methods:
 
   - nodes
   - edges
-  - graph_attributes
-  - node_attributes
-  - edge_attributes
   - dotID
   - dotnode
   - dotedge
@@ -22,15 +19,15 @@ See the documentation for those methods.
 Default *no-op* methods are provided here where reasonable.
 """
 
-export dotID, graph_attributes, node_attributes, edge_attributes
+export dotID, dotgraph, dotnode, dotedge
+export dotescape, rundot, diarc, dot_attributes_string
 
-export dotescape, dotgraph, rundot, dotnode, dotedge, diarc, dot_attributes_string
-export SimpleDottableGraph
 
 """
    nodes(graph)
 Return a collection of all of the nodes of `graph`.
 """
+function nodes end
 
 
 """
@@ -39,28 +36,7 @@ Return a collection of all of the edges of `graph`.
 Each element of the collections is a Pair associating one
 nodeof the graph with another.
 """
-
-
-"""
-    graph_attributes(graph)
-Return a Dict of graph level attributes (for the Dot `graph` statement).
-"""
-graph_attributes(graph) = Dict{Symbol, AbstractString}()
-
-
-"""
-    node_attributes(graph)
-Return a Dict of the default node attributes that should apply to all nodes of `graph`.
-"""
-node_attributes(graph) = Dict{Symbol, AbstractString}()
-
-
-"""
-    edge_attributes(graph)
-Return a Dict of the default attributes that should apply to all edges of `graph`.
-"""
-edge_attributes(graph) = Dict{Symbol, AbstractString}()
-
+function edges end
 
 
 """
@@ -96,17 +72,17 @@ end
 
 
 md"""
-    dotgraph(path::String, graph)
+    dotgraph(path::String, graph, dotstyle)
 Write the graph to the specified file.
 If the file extension is `dot` then a GraphViz dot file is written.
 Otherwise a dot description of `graph` is piped through the dot command,
 the output of which will be written to `psth`.
 """
-function dotgraph(path::String, graph)
+function dotgraph(path::String, graph, dotstyle)
     ext = last(splitext(path))[2:end]
     if ext == "dot"
         open(path, "w") do io
-            dotgraph(io, graph)
+            dotgraph(io, graph, dotstyle)
         end
     else
         ### This code needs work.
@@ -135,24 +111,24 @@ end
 
 
 md"""
-    dotgraph(io::IO, graph)
+    dotgraph(io::IO, graph, dotstyle)
 Write a dot description of `graph` to `io`.
 """
-function dotgraph(io::IO, graph)
+function dotgraph(io::IO, graph, dotstyle)
     write(io, "digraph panels {\n")
     for (word, fun) in (("graph", graph_attributes),
                         ("node", node_attributes),
                         ("edge", edge_attributes))
-        attrs = fun(graph)
+        attrs = fun(dotstyle)
         if !isempty(attrs)
             write(io, "$word [$(dot_attributes_string(attrs))]\n")
         end
     end
     for node in nodes(graph)
-        dotnode(io, graph, node)
+        dotnode(io, graph, dotstyle, node)
     end
     for arc in edges(graph)
-        dotedge(io, graph, arc.first, arc.second)
+        dotedge(io, graph, dotstyle, arc.first, arc.second)
     end
     write(io, "}\n")
 end
@@ -168,21 +144,26 @@ end
 
 
 """
-    dotnode(io::IO, graph, node)
+    dotnode(io::IO, graph, dotstyle, node)
 Write a Dot node statement to `io` describing `node`.
 """
-function dotnode(io::IO, graph, node)
-    write(io, """  $(dotescape(dotID(node)))\n""")
+function dotnode(io::IO, graph, dotstyle, node)
+    id = dotescape(dotID(node))
+    attrs = dot_attributes_string(node_attributes(dotstyle, node))
+    if !isempty(attrs)
+        attrs = " [" * attrs * "}"
+    end
+    write(io, """  $id$attrs\n""")
 end
 
 
 """
-    dotedge(io::IO, graph, from, to)
+    dotedge(io::IO, graph, dotstyle, from, to)
 Write a Dot edge statement to `io` describing an edge from
 `from` to `to`.
 """
-function dotedge(io::IO, graph, from, to)
-    diarc(io, from, to)
+function dotedge(io::IO, graph, dotstyle, from, to)
+    diarc(io, from, to; edge_attributes(dotstyle, from, to)...)
 end
 
 function dot_attributes_string(attrs::Dict)::String

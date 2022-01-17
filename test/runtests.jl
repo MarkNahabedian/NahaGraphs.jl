@@ -99,7 +99,7 @@ end
         end
     end
     dotfile = joinpath(@__DIR__, "generic_dot_test.dot")
-    dotgraph(dotfile, g)
+    dotgraph(dotfile, g, nothing)
     try
         rundot(dotfile)
     catch e
@@ -107,3 +107,22 @@ end
     end
 end
 
+@testset "dark mode dot style" begin
+    g = DiGraph()
+    nodes = [:a, :b, :c]
+    for from in nodes, to in nodes
+        if from == to
+            add_edge!(g, from, :x)
+            add_edge!(g, :x, to)
+        else
+            add_edge!(g, from, to)
+        end
+    end
+    dotfile = joinpath(@__DIR__, "dotstyle_test.dot")
+    dotgraph(dotfile, g, DotStyleWhiteOnBlack())
+    try
+        rundot(dotfile)
+    catch e
+        @error "Running dot failed:", e
+    end
+end

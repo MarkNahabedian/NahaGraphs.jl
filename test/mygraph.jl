@@ -12,7 +12,7 @@ NahaGraphs.edges(g::MyGraph) = edges(g.graph)
 NahaGraphs.nodes(g::MyGraph) = nodes(g.graph)
 NahaGraphs.add_edge!(g::MyGraph, edge) = add_edge!(g.graph, edge)
 NahaGraphs.remove_edge!(g::MyGraph, edge) = remove_edge!(g.graph, edge)
-NahaGraphs. query(g::MyGraph, from, to) = query(g.graph, from, to)
+NahaGraphs.query(g::MyGraph, from, to) = query(g.graph, from, to)
 
 # Delegation for Dict support:
 Base.keys(g::MyGraph) = keys(g.graph)
