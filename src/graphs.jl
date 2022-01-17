@@ -7,6 +7,14 @@ struct DiGraph
     DiGraph() = new(Set{Pair}())
 end
 
+function DiGraph(graph::DiGraph)
+    new_graph = DiGraph()
+    for e in edges(graph)
+        add_edge!(new_graph, e.first => e.second)
+    end
+    new_graph
+end
+
 
 """
     add_edge!(::DiGraph, from, to)
