@@ -4,7 +4,7 @@ using UUIDs
 
 export transform!, applyRule!, transformingGraph!
 
-function transform!(graph::DiGraph, addarcs, removearcs)
+function transform!(graph, addarcs, removearcs)
     setdiff!(graph.edges, removearcs)
     union!(graph.edges, addarcs)
     graph
