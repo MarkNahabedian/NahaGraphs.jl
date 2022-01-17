@@ -10,6 +10,14 @@ function transform!(graph::DiGraph, addarcs, removearcs)
     graph
 end
 
+
+"""
+    applyRule!(graph, rule)
+Apply rule to each node of graph and modify the graph's edges
+as determined by rule.  Rule is a function that takes the graph
+and a node as arguments and returns the set of edges to add and
+the set of edges to remove.
+"""
 function applyRule!(graph::DiGraph, rule)
     nodes(graph) .|>
 	(node -> rule(graph, node)) .|>
