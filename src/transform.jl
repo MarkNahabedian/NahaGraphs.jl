@@ -18,7 +18,7 @@ as determined by rule.  Rule is a function that takes the graph
 and a node as arguments and returns the set of edges to add and
 the set of edges to remove.
 """
-function applyRule!(graph::DiGraph, rule)
+function applyRule!(graph, rule)
     nodes(graph) .|>
 	(node -> rule(graph, node)) .|>
 	(add_remove -> transform!(graph, add_remove...))
