@@ -20,7 +20,8 @@ Default *no-op* methods are provided here where reasonable.
 """
 
 export dotID, dotgraph, dotnode, dotedge
-export dotescape, rundot, diarc, dot_attributes_string
+export dotescape, diarc, dot_attributes_string
+export rundot, DotError
 
 
 """
@@ -60,6 +61,17 @@ described in a SearchState.
 """
 function dotgraph end
 
+struct DotError <: Exception
+    command
+    error
+    stdout
+    stderr
+end
+
+function Base.showerror(io::IO, e::DotError)
+    write(io, "Error running dot:\n($e.command)\n$(e.stderr)\n")
+end
+
 
 md"""
     rundot(path)
@@ -67,7 +79,14 @@ Run the GraphViz dot command on the specified dot file
 to produce an SVG file with the same basename.
 """
 function rundot(path)
-    Base.run(`dot -Tsvg -O $path`)
+    out = IOBuffer()
+    err = IOBuffer()
+    cmd = `dot -Tsvg -O $path`
+    try
+        Base.run(pipeline(cmd; stdout=out, stderr=err))
+    catch e
+        throw(DotError(cmd, e, String(take!(out)), String(take!(err))))
+    end
 end
 
 
@@ -151,7 +170,7 @@ function dotnode(io::IO, graph, dotstyle, node)
     id = dotescape(dotID(node))
     attrs = dot_attributes_string(node_attributes(dotstyle, node))
     if !isempty(attrs)
-        attrs = " [" * attrs * "}"
+        attrs = " [" * attrs * "]"
     end
     write(io, """  $id$attrs\n""")
 end
@@ -192,7 +211,7 @@ diark is a convenience function for `dotedge` methods to call.
 function diarc(io::IO, from, to; kwargs...)
     attrs = dot_attributes_string(; kwargs...)
     if !isempty(attrs)
-        attrs = " [" * attrs * "}"
+        attrs = " [" * attrs * "]"
     end
     write(io, "  $(dotescape(dotID(from))) -> $(dotescape(dotID(to)))$attrs\n")
 end
