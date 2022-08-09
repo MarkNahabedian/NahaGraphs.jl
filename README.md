@@ -63,5 +63,5 @@ Set{Pair} with 2 elements:
 A `DiGraph` can also be read as a Dict with the from nodes serving as
 keys.
 
-To wrap DiGraph in a new struct type for specialized begavior, see the
-method delegation example in `test/mygrapg.jl`.
+To wrap DiGraph in a new struct type for specialized behavior, see the
+method delegation example in `test/mygraph.jl`.
