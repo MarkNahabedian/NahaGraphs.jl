@@ -1,3 +1,19 @@
+<a href="https://github.com/MarkNahabedian/NahaGraphs.jl/actions?query=workflow%3ACI+branch%3Amaster">
+  <img
+    src="https://github.com/MarkNahabedian/NahaGraphs.jl/workflows/CI/badge.svg"
+    alt="Build Status" />
+</a>
+<a href="https://codecov.io/gh/MarkNahabedian/NahaGraphs.jl">
+  <img
+    src="https://codecov.io/gh/MarkNahabedian/NahaGraphs.jl/branch/master/graph/badge.svg"
+    alt="Test Coverage" />
+</a>
+<a href="https://marknahabedian.github.io/NahaGraphs.jl/">
+  <img
+    src="https://img.shields.io/badge/docs-stable-blue.svg"
+    alt="Docs Stable" />
+</a>
+
 # NahaGraphs
 
 A simple package for creating and manipulating directed graphs.
