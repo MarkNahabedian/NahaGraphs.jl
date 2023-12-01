@@ -119,6 +119,8 @@ end
         end
     end
     dotfile = joinpath(@__DIR__, "dotstyle_test.dot")
+    @info dotfile
+    rm(dotfile; force=true)
     dotgraph(dotfile, g, DotStyleWhiteOnBlack())
     try
         rundot(dotfile)
@@ -126,3 +128,17 @@ end
         @error "Running dot failed:", e
     end
 end
+ 
+@testset "rundot output file type" begin
+    g = DiGraph()
+    nodes = [:a, :b, :c]
+    for from in nodes, to in nodes
+        add_edge!(g, from, to)
+    end
+    svgfile = joinpath(@__DIR__, "dotgraph_output_file_type_test.svg")
+    @info svgfile
+    rm(svgfile; force=true)
+    dotgraph(svgfile, g, DotStyleWhiteOnBlack)
+    @test isfile(svgfile)
+end
+
