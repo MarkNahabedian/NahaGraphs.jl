@@ -1,6 +1,19 @@
 
 export DiGraph, add_edge!, remove_edge!, nodes, edges, query
 
+
+"""
+DiGraph represents a directed graph.
+
+Any Julia object can serve as the node of a DiGraph so long as it has
+identity.
+
+Use `add_edge!` of a from node and a to node to add an edge (and those
+nodes if not already present) to a DiGraph.
+
+The `nodes`, `edges` and `query` functions can be used to examine the
+DiGraph.
+"""
 struct DiGraph
     edges::Set{Pair{}}
 
