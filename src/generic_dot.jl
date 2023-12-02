@@ -84,7 +84,7 @@ to produce an SVG file with the same basename.
 function rundot(path)
     out = IOBuffer()
     err = IOBuffer()
-    cmd = `dot -Tsvg -O $path`
+    cmd = `$(Graphviz_jll.dot()) -Tsvg -O $path`
     try
         Base.run(pipeline(cmd; stdout=out, stderr=err))
     catch e

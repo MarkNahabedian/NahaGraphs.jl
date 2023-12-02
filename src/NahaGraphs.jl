@@ -1,6 +1,7 @@
 module NahaGraphs
 
 using Markdown
+using Graphviz_jll
 
 include("graphs.jl")
 include("transform.jl")

@@ -2,13 +2,6 @@ using NahaGraphs
 using Test
 using Logging
 
-function unless_ci(f)
-    if !haskey(ENV, "GITHUB_ACTIONS")
-        f()
-    end
-end
-
-
 @testset "DiGraph" begin
     g = DiGraph()
     add_edge!(g, :a, :a1)
@@ -92,7 +85,6 @@ include("mygraph.jl")
     transform_test(MyGraph)
 end
 
-unless_ci() do
 @testset "generic dot" begin
     # Just test that we can write a Dot file without error.  If Dot is
     # available, run it on that file as a validation step.
@@ -114,10 +106,7 @@ unless_ci() do
         @error "Running dot failed:", e
     end
 end
-end
 
-
-unless_ci() do
 @testset "dark mode dot style" begin
     g = DiGraph()
     nodes = [:a, :b, :c]
@@ -139,10 +128,7 @@ unless_ci() do
         @error "Running dot failed:", e
     end
 end
-end
- 
 
-unless_ci() do
 @testset "rundot output file type" begin
     g = DiGraph()
     nodes = [:a, :b, :c]
@@ -154,6 +140,5 @@ unless_ci() do
     rm(svgfile; force=true)
     dotgraph(svgfile, g, DotStyleWhiteOnBlack)
     @test isfile(svgfile)
-end
 end
 
