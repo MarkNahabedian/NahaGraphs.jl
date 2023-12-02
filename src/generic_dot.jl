@@ -111,7 +111,7 @@ function dotgraph(path::String, graph, dotstyle)
         # If the file type is anything other than "dot" then run the
         # dot command to generate the file:
         ext = ext[2:end]
-        cmd = `dot -T$ext -o$path`
+        cmd = `$(Graphviz_jll.dot()) -Tsvg -O $path`
         proc = run(cmd,
                    Base.PipeEndpoint(),
                    IOBuffer(),
