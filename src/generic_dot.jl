@@ -75,6 +75,8 @@ function Base.showerror(io::IO, e::DotError)
 end
 
 
+DOT_COMMAND = Graphviz_jll.dot()
+
 md"""
     rundot(path)
 
@@ -84,7 +86,7 @@ to produce an SVG file with the same basename.
 function rundot(path)
     out = IOBuffer()
     err = IOBuffer()
-    cmd = `$(Graphviz_jll.dot()) -Tsvg -O $path`
+    cmd = `$DOT_COMMAND -Tsvg -O$path`
     try
         Base.run(pipeline(cmd; stdout=out, stderr=err))
     catch e
@@ -101,7 +103,8 @@ If the file extension is `dot` then a GraphViz dot file is written.
 Otherwise a dot description of `graph` is piped through the dot command,
 the output of which will be written to `psth`.
 """
-function dotgraph(path::String, graph, dotstyle)
+function dotgraph(path::String, graph, dotstyle;
+                  dot_command=DOT_COMMAND)
     _, ext = splitext(path)
     if ext == ".dot"
         open(path, "w") do io
@@ -111,7 +114,7 @@ function dotgraph(path::String, graph, dotstyle)
         # If the file type is anything other than "dot" then run the
         # dot command to generate the file:
         ext = ext[2:end]
-        cmd = `$(Graphviz_jll.dot()) -Tsvg -O $path`
+        cmd = `$dot_command -T$ext -o$path`
         proc = run(cmd,
                    Base.PipeEndpoint(),
                    IOBuffer(),
@@ -123,8 +126,8 @@ function dotgraph(path::String, graph, dotstyle)
         @assert isempty(take!(proc.out))
         error_message = String(take!(proc.err))
         if error_message != ""
-            throw(DotError(cmd, e, nothing,
-                           read(errout, String)))
+            throw(DotError(cmd, nothing, nothing,
+                           read(error_message, String)))
         end
     end
     return path

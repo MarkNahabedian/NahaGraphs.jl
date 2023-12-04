@@ -2,6 +2,13 @@ using NahaGraphs
 using Test
 using Logging
 
+
+function unless_ci(f)
+    if !haskey(ENV, "GITHUB_ACTIONS")
+        f()
+    end
+end
+
 @testset "DiGraph" begin
     g = DiGraph()
     add_edge!(g, :a, :a1)
