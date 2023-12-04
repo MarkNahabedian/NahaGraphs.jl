@@ -28,6 +28,9 @@ applyRule!
 
 ## Definitions Specific to GraphViz dot
 
+See the "rundot output file type" testset for an example of how to
+construct a graph and render it in SVG.
+
 ```@docs
 dotgraph
 dotID
