@@ -1,4 +1,5 @@
 /Manifest.toml
+/docs/build
 /test/debug_dot_input.dot
 /test/dotstyle_test.dot
 /test/dotstyle_test.dot.svg
