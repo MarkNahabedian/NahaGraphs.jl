@@ -68,6 +68,8 @@ function transform_test(graph_type)
     end
     @test length(edges(g)) == 9
     function rule(g, node)
+        # Replace all self-edges with edges to and from the new node
+        # :x:
         transformingGraph!() do check, add, remove
             for edge in query(g, node, node)
                 add(edge.first => :x)

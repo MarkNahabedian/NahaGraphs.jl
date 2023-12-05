@@ -21,8 +21,13 @@ query
 
 This is experimental.
 
+See the "transformingGraph! and applyRule!" testset for an example.
+
 ```@docs
 applyRule!
+transformingGraph!
+NahaGraphs.NonlocalReturn
+transform!
 ```
 
 
