@@ -17,6 +17,11 @@ edges
 query
 ```
 
+To define your own graph type that delegates to `DiGraph`, see
+`test/mygraph.jl`.  You might do this in order to streamline
+how nodes and edges are managed for your application.
+
+
 ## Transforming Graphs
 
 This is experimental.
