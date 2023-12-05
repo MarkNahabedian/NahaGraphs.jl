@@ -19,5 +19,5 @@ makedocs(;
 
 deploydocs(;
            repo="github.com/MarkNahabedian/NahaGraphs.jl",
-           devbranch="main",
+           devbranch="master",
 )
