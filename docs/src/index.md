@@ -1,10 +1,17 @@
 # NahaGraphs.jl
 
 NahaGraphs provides some rudimentary functionality for building
-directed graphs and running GraphViz `dot` to visualize them.
+directed graphs, searching them, and and running GraphViz `dot` to
+visualize them.
 
-The [`query`](@ref) function provides a simplemined way to search the
-graph's edges.
+If you have a tree of immutable structs, NahaGraphs can also be used
+to construct a DiGraph that mirrors that hierarchy but allows for
+reverse lookup.
+
+There is noting clever here.  No indexing.  Searching is linear.
+Functionality will be slower for larger graphs.  If you have
+suggestions for improvement, please open a discussion or an issue.
+
 
 ## Generic Graph definitions
 

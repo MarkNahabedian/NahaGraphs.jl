@@ -16,7 +16,8 @@
 
 # NahaGraphs
 
-A simple package for creating and manipulating directed graphs.
+NahaGraphs is a simple package for creating and manipulating directed
+graphs.
 
 The initial code was migrated from PanelCutting.jl.
 
@@ -29,7 +30,6 @@ identity.
 julia> using Pkg
 
 julia> Pkg.add(;url="https://github.com/MarkNahabedian/NahaGraphs.jl")
-...
 
 julia> using NahaGraphs
 
@@ -65,3 +65,6 @@ keys.
 
 To wrap DiGraph in a new struct type for specialized behavior, see the
 method delegation example in `test/mygraph.jl`.
+
+
+NahaGraphs is licensed under the MIT License.

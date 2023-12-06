@@ -8,11 +8,16 @@ DiGraph represents a directed graph.
 Any Julia object can serve as the node of a DiGraph so long as it has
 identity.
 
-Use `add_edge!` of a from node and a to node to add an edge (and those
-nodes if not already present) to a DiGraph.
+A `DiGraph` maintains a `Set` of edges.  Each edge is a `Pair` whose
+`first` is the *from* node and whose `second` is the *to* node.  Nodes
+are arbitrary objects whose only role in a DiGraph is to have
+identity.
 
-The `nodes`, `edges` and `query` functions can be used to examine the
-DiGraph.
+Use [`add_edge!`](@ref) of a from node and a to node to add an edge
+(and those nodes if not already present) to a `DiGraph`.
+
+The [`nodes`](@ref), [`edges`](@ref) and [`query`](@ref) functions can
+be used to examine the DiGraph.
 """
 struct DiGraph
     edges::Set{Pair{}}
